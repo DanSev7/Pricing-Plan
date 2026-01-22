@@ -1,8 +1,11 @@
 import axios, { AxiosError } from 'axios';
 import env from '../config/environment';
 
-// Base URL for our backend API
+// Enhanced environment configuration with better detection
 const API_BASE_URL = env.apiUrl;
+
+// Log the environment and API URL for debugging
+console.log('Final API Base URL in contactService:', API_BASE_URL);
 
 // Create axios instance with default config
 const apiClient = axios.create({
@@ -12,6 +15,30 @@ const apiClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+// Add request interceptor for debugging
+// apiClient.interceptors.request.use(
+//   (config) => {
+//     console.log('Axios request:', config);
+//     return config;
+//   },
+//   (error) => {
+//     console.log('Axios request error:', error);
+//     return Promise.reject(error);
+//   }
+// );
+
+// Add response interceptor for debugging
+// apiClient.interceptors.response.use(
+//   (response) => {
+//     console.log('Axios response:', response);
+//     return response;
+//   },
+//   (error) => {
+//     console.log('Axios response error:', error);
+//     return Promise.reject(error);
+//   }
+// );
 
 /**
  * Submit contact form to the backend
@@ -66,6 +93,11 @@ export const submitTeamContactForm = async (contactData: {
     return response.data;
   } catch (error) {
     console.error('Team contact form submission error:', error);
+    console.log('Error details:', {
+      message: error.message,
+      code: error.code,
+      name: error.name
+    });
     if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError;
       if (axiosError.response?.data) {

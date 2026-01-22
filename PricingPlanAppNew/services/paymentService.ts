@@ -1,8 +1,11 @@
 import axios, { AxiosError } from 'axios';
 import env from '../config/environment';
 
-// Base URL for our backend API
+// Enhanced environment configuration with better detection
 const API_BASE_URL = env.apiUrl;
+
+// Log the environment and API URL for debugging
+console.log('Final API Base URL in paymentService:', API_BASE_URL);
 
 // Create axios instance with default config
 const apiClient = axios.create({
@@ -12,6 +15,31 @@ const apiClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+// Add request interceptor for debugging
+// apiClient.interceptors.request.use(
+//   (config) => {
+//     console.log('Axios request to:', config.baseURL + config.url);
+//     console.log('Request config:', config);
+//     return config;
+//   },
+//   (error) => {
+//     console.log('Axios request error:', error);
+//     return Promise.reject(error);
+//   }
+// );
+
+// // Add response interceptor for debugging
+// apiClient.interceptors.response.use(
+//   (response) => {
+//     console.log('Axios response:', response.status, response.config.url);
+//     return response;
+//   },
+//   (error) => {
+//     console.log('Axios response error:', error.response?.status, error.config?.url);
+//     return Promise.reject(error);
+//   }
+// );
 
 /**
  * Initialize a payment with the backend
